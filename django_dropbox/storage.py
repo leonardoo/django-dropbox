@@ -45,6 +45,10 @@ class DropboxStorage(Storage):
             name = name.replace("\\","/")
         return os.path.join(self.location, name)
 
+    def _filepath_to_uri(self, name):
+        # consider location!
+        return "%s/%s" % (self.location, filepath_to_uri(name))
+
     def _open(self, name, mode='rb'):
         name = self._get_abs_path(name)
         remote_file = DropboxFile(name, self, mode=mode)
@@ -91,21 +95,21 @@ class DropboxStorage(Storage):
         return directories, files
 
     def size(self, name):
-        cache_key = 'django-dropbox-size:%s' % filepath_to_uri(name)
+        cache_key = 'django-dropbox-size:%s' % self._filepath_to_uri(name)
         size = cache.get(cache_key)
 
         if not size:
-            size = self.client.metadata(filepath_to_uri(name))['bytes']
+            size = self.client.metadata(self._filepath_to_uri(name))['bytes']
             cache.set(cache_key, size, CACHE_TIMEOUT)
 
         return size
 
     def url(self, name):
-        cache_key = 'django-dropbox-url:%s' % filepath_to_uri(name)
+        cache_key = 'django-dropbox-url:%s' % self._filepath_to_uri(name)
         url = cache.get(cache_key)
 
         if not url:
-            url = self.client.share(filepath_to_uri(name), short_url=False)['url'] + '?dl=1'
+            url = self.client.share(self._filepath_to_uri(name), short_url=False)['url'] + '?dl=1'
             cache.set(cache_key, url, CACHE_TIMEOUT)
 
         return url
