@@ -39,6 +39,8 @@ class DropboxStorage(Storage):
 
     def _get_abs_path(self, name):
         # the path to save in dropbox
+        if platform.system() == "Windows":
+            name = name.replace("\\","/")
         return os.path.join(self.location, name)
 
     def _open(self, name, mode='rb'):
