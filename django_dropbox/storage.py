@@ -58,7 +58,7 @@ class DropboxStorage(Storage):
         response = self.client.metadata(directory)
         if not response['is_dir']:
              raise IOError("%s exists and is not a directory." % directory)
-        abs_name = os.path.realpath(os.path.join(self.location, name))
+        abs_name = name
         self.client.put_file(abs_name, content)
         return name
 
