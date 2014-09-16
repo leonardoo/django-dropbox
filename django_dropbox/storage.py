@@ -38,7 +38,8 @@ class DropboxStorage(Storage):
         self.base_url = 'http://dl.dropbox.com/u/{uid}/'.format(**self.account_info)
 
     def _get_abs_path(self, name):
-        return os.path.realpath(os.path.join(self.location, name))
+        # the path to save in dropbox
+        return os.path.join(self.location, name)
 
     def _open(self, name, mode='rb'):
         name = self._get_abs_path(name)
