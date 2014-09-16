@@ -4,6 +4,8 @@ import re
 import urlparse
 import urllib
 import itertools
+import platform
+
 try:
     from cStringIO import StringIO
 except ImportError:
