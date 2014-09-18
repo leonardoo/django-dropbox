@@ -41,9 +41,10 @@ class DropboxStorage(Storage):
 
     def _get_abs_path(self, name):
         # the path to save in dropbox
+        name = os.path.join(self.location, name)
         if platform.system() == "Windows":
-            name = name.replace("\\","/")
-        return os.path.join(self.location, name)
+            name = name.replace("\\", "/")
+        return name
 
     def _filepath_to_uri(self, name):
         # consider location!
@@ -58,10 +59,10 @@ class DropboxStorage(Storage):
         name = self._get_abs_path(name)
         directory = os.path.dirname(name)
         if not self.exists(directory) and directory:
-             self.client.file_create_folder(directory)
+            self.client.file_create_folder(directory)
         response = self.client.metadata(directory)
         if not response['is_dir']:
-             raise IOError("%s exists and is not a directory." % directory)
+            raise IOError("%s exists and is not a directory." % directory)
         abs_name = name
         self.client.put_file(abs_name, content)
         return name
@@ -77,7 +78,8 @@ class DropboxStorage(Storage):
             if metadata.get('is_deleted'):
                 return False
         except ErrorResponse as e:
-            if e.status == 404: # not found
+            if e.status == 404:
+                # not found
                 return False
             raise e
         return True
@@ -132,14 +134,15 @@ class DropboxStorage(Storage):
 
         return name
 
+
 class DropboxFile(File):
     def __init__(self, name, storage, mode):
+        self._name = name
         self._storage = storage
         self._mode = mode
         self._is_dirty = False
         self.file = StringIO()
-        self.start_range = 0
-        self._name = name
+        self._is_read = False
 
     @property
     def size(self):
@@ -148,13 +151,17 @@ class DropboxFile(File):
         return self._size
 
     def read(self, num_bytes=None):
-        return self._storage.client.get_file(self._name).read()
+        if not self._is_read:
+            self.file = self._storage.client.get_file(self._name)
+            self._is_read = True
+        return self.file.read(num_bytes)
 
     def write(self, content):
         if 'w' not in self._mode:
             raise AttributeError("File was opened for read-only access.")
         self.file = StringIO(content)
         self._is_dirty = True
+        self._is_read = True
 
     def close(self):
         if self._is_dirty:
