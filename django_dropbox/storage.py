@@ -93,21 +93,21 @@ class DropboxStorage(Storage):
         return directories, files
 
     def size(self, name):
-        cache_key = 'django-dropbox-size:%s' % self.filepath_to_uri(name)
+        cache_key = 'django-dropbox-size:%s' % filepath_to_uri(name)
         size = cache.get(cache_key)
 
         if not size:
-            size = self.client.metadata(self.filepath_to_uri(name))['bytes']
+            size = self.client.metadata(filepath_to_uri(name))['bytes']
             cache.set(cache_key, size, CACHE_TIMEOUT)
 
         return size
 
     def url(self, name):
-        cache_key = 'django-dropbox-url:%s' % self.filepath_to_uri(name)
+        cache_key = 'django-dropbox-url:%s' % filepath_to_uri(name)
         url = cache.get(cache_key)
 
         if not url:
-            url = self.client.share(self.filepath_to_uri(name), short_url=False)['url'] + '?dl=1'
+            url = self.client.share(filepath_to_uri(name), short_url=False)['url']
             # this replace is for force to dropbox url to send the url like a content and don't
             # like a link to donwload
             url = url.replace("www", "photos-4")
