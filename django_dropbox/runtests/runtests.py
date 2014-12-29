@@ -2,7 +2,7 @@
 import os
 import sys
 
-os.environ['DJANGO_SETTINGS_MODULE'] = 'tests.test_settings'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'django_dropbox.runtests.test_settings'
 
 import django
 from django.conf import settings
