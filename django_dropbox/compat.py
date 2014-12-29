@@ -19,5 +19,4 @@ def getFile(content=None):
         stream_class = StringIO if isinstance(content, six.text_type) else BytesIO
     else:
         stream_class = BytesIO
-        content = force_bytes(content)
     return stream_class(content)
