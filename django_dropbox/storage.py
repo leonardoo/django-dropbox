@@ -4,13 +4,15 @@ import re
 import itertools
 import platform
 
-from dropbox.session import DropboxSession
 from dropbox.client import DropboxClient
+from dropbox.session import DropboxSession
 from dropbox.rest import ErrorResponse
+
 from django.core.cache import cache
 from django.core.files import File
+from django.core.files.base import ContentFile
 from django.core.files.storage import Storage
-from django.utils.encoding import filepath_to_uri
+from django.utils.encoding import filepath_to_uri, force_text
 
 
 from .compat import urlparse, BytesIO
@@ -38,9 +40,7 @@ class DropboxStorage(Storage):
     def _get_abs_path(self, name):
         # the path to save in dropbox
         name = os.path.join(self.location, name)
-        if platform.system() == "Windows":
-            name = name.replace("\\", "/")
-        return name
+        return force_text(name.replace('\\', '/'))
 
     def _open(self, name, mode='rb'):
         name = self._get_abs_path(name)
@@ -155,7 +155,7 @@ class DropboxFile(File):
     def write(self, content):
         if 'w' not in self._mode:
             raise AttributeError("File was opened for read-only access.")
-        self.file = BytesIO(content)
+        self.file = ContentFile(content)
         self._is_dirty = True
         self._is_read = True
 
