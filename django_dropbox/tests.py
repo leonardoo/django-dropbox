@@ -2,6 +2,7 @@
 from django.core.files.base import ContentFile
 from django.test import TestCase
 from django_dropbox.storage import DropboxStorage
+from django.utils import six
 
 class DropboxStorageTest(TestCase):
 
@@ -43,7 +44,7 @@ class DropboxStorageTest(TestCase):
         self.assertTrue(self.storage.exists('storage_test'))
 
         f = self.storage.open('storage_test', 'r')
-        self.assertEqual(f.read(), 'storage contents')
+        self.assertEqual(f.read(), six.b('storage contents'))
         f.close()
 
         self.storage.delete('storage_test')
@@ -64,8 +65,8 @@ class DropboxStorageTest(TestCase):
         self.assertFalse(self.storage.exists('storage_test_2'))
         self.assertFalse(self.storage.exists('storage_dir_1'))
 
-        f = self.storage.save('storage_test_1', ContentFile('custom content'))
-        f = self.storage.save('storage_test_2', ContentFile('custom content'))
+        f = self.storage.save('storage_test_1', ContentFile(six.b('custom content')))
+        f = self.storage.save('storage_test_2', ContentFile(six.b('custom content')))
         self.storage.client.file_create_folder(self.location + '/storage_dir_1')
 
         dirs, files = self.storage.listdir(self.location)
