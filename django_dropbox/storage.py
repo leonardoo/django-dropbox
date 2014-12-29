@@ -13,7 +13,7 @@ from django.core.files import File
 from django.core.files.storage import Storage
 from django.utils.encoding import filepath_to_uri, force_text
 
-from .compat import urlparse, get_file
+from .compat import urlparse, getFile
 
 from .settings import (CONSUMER_KEY,
                        CONSUMER_SECRET,
