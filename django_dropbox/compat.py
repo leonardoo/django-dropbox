@@ -1,7 +1,6 @@
 
 from io import BytesIO, StringIO
 
-from django.utils.encoding import force_bytes
 from django.utils import six
 from django.utils.six.moves.urllib import parse as urlparse
 
