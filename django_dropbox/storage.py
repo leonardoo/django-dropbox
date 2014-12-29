@@ -1,15 +1,9 @@
 import errno
 import os.path
 import re
-import urlparse
-import urllib
 import itertools
 import platform
 
-try:
-    from cStringIO import StringIO
-except ImportError:
-    from StringIO import StringIO
 from dropbox.session import DropboxSession
 from dropbox.client import DropboxClient
 from dropbox.rest import ErrorResponse
@@ -18,6 +12,8 @@ from django.core.files import File
 from django.core.files.storage import Storage
 from django.utils.encoding import filepath_to_uri
 
+
+from .compat import urlparse, BytesIO
 from .settings import (CONSUMER_KEY,
                        CONSUMER_SECRET,
                        ACCESS_TYPE,
@@ -141,7 +137,7 @@ class DropboxFile(File):
         self._storage = storage
         self._mode = mode
         self._is_dirty = False
-        self.file = StringIO()
+        self.file = BytesIO()
         self._is_read = False
 
     @property
@@ -159,7 +155,7 @@ class DropboxFile(File):
     def write(self, content):
         if 'w' not in self._mode:
             raise AttributeError("File was opened for read-only access.")
-        self.file = StringIO(content)
+        self.file = BytesIO(content)
         self._is_dirty = True
         self._is_read = True
 

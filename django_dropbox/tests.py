@@ -71,3 +71,4 @@ class DropboxStorageTest(TestCase):
 
         self.storage.delete('storage_test_size')
         self.assertFalse(self.storage.exists('storage_test_size'))
+
