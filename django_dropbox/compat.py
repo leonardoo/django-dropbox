@@ -1,6 +1,9 @@
-from django.utils.six.moves.urllib import parse as urlparse
+
 from io import BytesIO, StringIO
+
+from django.utils.encoding import force_bytes
 from django.utils import six
+from django.utils.six.moves.urllib import parse as urlparse
 
 try:
     from django.utils.deconstruct import deconstructible
@@ -11,7 +14,7 @@ except ImportError: # Django 1.7+ migrations
 def getFile(content=None):
     if not content:
         return BytesIO()
-    
+
     if six.PY3:
         stream_class = StringIO if isinstance(content, six.text_type) else BytesIO
     else:
