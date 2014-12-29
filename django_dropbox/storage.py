@@ -10,12 +10,11 @@ from dropbox.rest import ErrorResponse
 
 from django.core.cache import cache
 from django.core.files import File
-from django.core.files.base import ContentFile
 from django.core.files.storage import Storage
 from django.utils.encoding import filepath_to_uri, force_text
 
+from .compat import urlparse, get_file
 
-from .compat import urlparse, BytesIO
 from .settings import (CONSUMER_KEY,
                        CONSUMER_SECRET,
                        ACCESS_TYPE,
@@ -137,7 +136,7 @@ class DropboxFile(File):
         self._storage = storage
         self._mode = mode
         self._is_dirty = False
-        self.file = BytesIO()
+        self.file = getFile()
         self._is_read = False
 
     @property
@@ -155,7 +154,7 @@ class DropboxFile(File):
     def write(self, content):
         if 'w' not in self._mode:
             raise AttributeError("File was opened for read-only access.")
-        self.file = ContentFile(content)
+        self.file = getFile(content)
         self._is_dirty = True
         self._is_read = True
 
