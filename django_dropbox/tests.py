@@ -10,6 +10,28 @@ class DropboxStorageTest(TestCase):
         self.storage = DropboxStorage(location=self.location)
         self.storage.base_url = '/test_media_url/'
 
+    def test_file_delete(self):
+        """
+        File storage should delete file.
+        """
+        self.assertFalse(self.storage.exists('storage_test_1'))
+        f = self.storage.save('storage_test_1', ContentFile('custom content'))
+        self.assertTrue(self.storage.exists('storage_test_1'))
+        self.storage.delete('storage_test_1')
+        self.assertFalse(self.storage.exists('storage_test_1'))
+
+
+    def test_file_delete(self):
+        """
+        File storage should delete dir.
+        """
+        self.assertFalse(self.storage.exists('storage_dir_1'))
+        self.storage.client.file_create_folder(self.location + '/storage_dir_1')
+        self.assertTrue(self.storage.exists('storage_dir_1'))
+        self.storage.delete('storage_dir_1')
+        self.assertFalse(self.storage.exists('storage_dir_1'))
+
+
     def test_file_access_options(self):
         """
         Standard file access options are available, and work as expected.
