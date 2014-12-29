@@ -8,7 +8,10 @@ except ImportError: # Django 1.7+ migrations
     deconstructible = lambda klass, *args, **kwargs: klass
 
 
-def getFile(content):
+def getFile(content=None):
+    if not content:
+        return BytesIO()
+    
     if six.PY3:
         stream_class = StringIO if isinstance(content, six.text_type) else BytesIO
     else:
