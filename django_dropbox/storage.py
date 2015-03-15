@@ -13,7 +13,7 @@ from django.core.files import File
 from django.core.files.storage import Storage
 from django.utils.encoding import filepath_to_uri, force_text
 
-from .compat import urlparse, getFile
+from .compat import urlparse, getFile, deconstructible
 
 from .settings import (CONSUMER_KEY,
                        CONSUMER_SECRET,
@@ -22,7 +22,7 @@ from .settings import (CONSUMER_KEY,
                        ACCESS_TOKEN_SECRET,
                        CACHE_TIMEOUT)
 
-
+@deconstructible
 class DropboxStorage(Storage):
     """
     A storage class providing access to resources in a Dropbox Public folder.

@@ -14,12 +14,14 @@ def get_packages():
 
 requires = ['dropbox>=2.0.0']
 
-setup(name='django-dropbox',
+setup(
+    name='django-dropbox',
     version=version,
     description='A Django App that contains a Django Storage which uses Dropbox.',
-    author=u'Andres Torres Marroquin',
+    author='Andres Torres Marroquin',
     author_email='andres.torres.marroquin@gmail.com',
     url='https://github.com/andres-torres-marroquin/django-dropbox',
     packages=get_packages(),
     install_requires=requires,
+    license='BSD',
 )
