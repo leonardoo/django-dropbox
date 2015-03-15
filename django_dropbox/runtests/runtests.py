@@ -17,5 +17,5 @@ if __name__ == "__main__":
         settings.configure(myapp_defaults, DEBUG=True)
     TestRunner = get_runner(settings)
     test_runner = TestRunner()
-    failures = test_runner.run_tests(["django_dropbox"])
+    failures = test_runner.run_tests(["django_dropbox","demo.demo"])
     sys.exit(failures)
