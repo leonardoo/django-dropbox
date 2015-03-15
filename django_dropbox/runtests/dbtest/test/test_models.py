@@ -17,7 +17,7 @@ class DropboxStorageTest(TestCase):
         """
         model = TestDropbox()
         model.file_test.save(self.file_name, ContentFile(self.file_content))
-        self.assertEqual(os.path.basename(str(model)) ,self.file_name)
+        self.assertEqual(os.path.basename(model.__str__()) ,self.file_name)
         model.file_test.delete()
 
 
