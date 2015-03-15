@@ -1,8 +1,0 @@
-# Django-south for migrations
-South
-
-# Coverage for testing
-django_coverage
-
-#dropbox
-dropbox>=2.0.0

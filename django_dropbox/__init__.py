@@ -2,7 +2,7 @@
 Django accounts management made easy.
 
 """
-default_app_config = 'django_dropbox.apps.DjangoDropboxConfigConfig'
+default_app_config = 'django_dropbox.apps.DjangoDropboxConfig'
 
 VERSION = (0, 0, 5)
 

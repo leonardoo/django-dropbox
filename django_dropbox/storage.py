@@ -39,6 +39,7 @@ class DropboxStorage(Storage):
     def _get_abs_path(self, name):
         # the path to save in dropbox
         name = os.path.join(self.location, name)
+        name = os.path.normpath(name)
         return force_text(name.replace('\\', '/'))
 
     def _open(self, name, mode='rb'):

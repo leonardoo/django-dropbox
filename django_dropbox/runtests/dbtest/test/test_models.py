@@ -1,9 +1,9 @@
-#import os
+import os
 from django.core.files.base import ContentFile
 from django.test import TestCase
 from django_dropbox.storage import DropboxStorage
 from django.utils import six
-from demo.demo.models import TestDropbox
+from django_dropbox.runtests.dbtest.models import TestDropbox
 
 class DropboxStorageTest(TestCase):
 
@@ -17,7 +17,8 @@ class DropboxStorageTest(TestCase):
         """
         model = TestDropbox()
         model.file_test.save(self.file_name, ContentFile(self.file_content))
-        self.assertEqual(str(model),self.file_name)
+        self.assertEqual(os.path.basename(str(model)) ,self.file_name)
+        model.file_test.delete()
 
 
 

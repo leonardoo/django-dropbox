@@ -16,4 +16,4 @@ class TestDropbox(models.Model):
     file_test = models.FileField(upload_to=".",storage = STORAGE, null=True)
 
     def __str__(self):
-        return self.file_testself.filename
+        return self.file_test.name

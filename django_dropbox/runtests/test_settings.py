@@ -82,7 +82,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     "django_dropbox",
-    "demo.demo"
+    "django_dropbox.runtests.dbtest",
 )
 
 LOGGING = {
@@ -111,8 +111,12 @@ LOGGING = {
 
 # Needed for Storage
 
-DROPBOX_CONSUMER_KEY = os.environ['DROPBOX_CONSUMER_KEY']
-DROPBOX_CONSUMER_SECRET = os.environ['DROPBOX_CONSUMER_SECRET']
-DROPBOX_ACCESS_TOKEN = os.environ['DROPBOX_ACCESS_TOKEN']
-DROPBOX_ACCESS_TOKEN_SECRET = os.environ['DROPBOX_ACCESS_TOKEN_SECRET']
+DROPBOX_CONSUMER_KEY = '9lyr7cjqblxb2kv'
+DROPBOX_CONSUMER_SECRET = '4saauuu6alx0iiz'
+DROPBOX_ACCESS_TOKEN = 'vkf07symi6iadqba'
+DROPBOX_ACCESS_TOKEN_SECRET = 'rz32iqtxsrfuwko'
+#DROPBOX_CONSUMER_KEY = os.environ['DROPBOX_CONSUMER_KEY']
+#DROPBOX_CONSUMER_SECRET = os.environ['DROPBOX_CONSUMER_SECRET']
+#DROPBOX_ACCESS_TOKEN = os.environ['DROPBOX_ACCESS_TOKEN']
+#DROPBOX_ACCESS_TOKEN_SECRET = os.environ['DROPBOX_ACCESS_TOKEN_SECRET']
 ACCESS_TYPE = 'app_folder'
