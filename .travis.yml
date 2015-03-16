@@ -1,0 +1,21 @@
+language: python
+python: 2.7
+env:
+  matrix:
+  - TOX_ENV=py27-django14
+  - TOX_ENV=py27-django15
+  - TOX_ENV=py27-django16
+  - TOX_ENV=py27-django17
+  - TOX_ENV=py34-django15
+  - TOX_ENV=py34-django16
+  - TOX_ENV=py34-django17
+  - TOX_ENV=coverage
+  global:
+  - secure: ZdqsHM92b1pPklUT6S4j7mbnIQINOE5+QKOFoXqgq/N4lDHX8XvHywWDfn6iigr0R9Nj9F5RmzPB/EyaSbPb/RM14y1BlHPL4Jqwu83+JAyS6QxZqt1cAgrnG++rpJCnTT6tZTsiXgyWo6RCxMTQFAXQsvye6br0w5rLxP7Ymyg=
+  - secure: XLLNIUgl5VsSy1w6i34z0Vo2NHRQcX9e8TS4Mg4Iq1fDT9WjLGG8tN2Nu4CFzrOK6PjCBFMTHgt88UJiQ45dxAzIFl+ApysqB+E2Z42r3HggiDn2iHfu8S/csSxgcFoI5qjyqeW3tDEOZfxtMZ18hqAPVFBlZ7QwmSSl7TeHb8k=
+  - secure: ULa2n0dqO1/Vf8QpBXVz47XQ963LXEvD59/TmoxXffusMV47aASSv4j+kXU2+RwvzTDWO5k1afd5esebwGUiv78l/x5Ta4QiDpX6uxxPTQk/CGHEuUTMru7d/CYf3xPAB5Vu/mexaPHmPAT4sO3I9Sef6LIsFSNsXp/LkmbT3NQ=
+  - secure: gXWm2BJJ7FoGMc09uzPUMpEeFCJMQE3awvJ9nnx6n1I4D7GZPyE7Ukm+o4o8DsjO/nBQzAqkMNJi4J2E4H0FvHnLHif8ktE0JATf3jYAHhOZO4NaY5aikSliMvH2a+JkfNZsUbUbq8zzcZMpyNX2O4N0cIZc9tplQznHD8RMrJU=
+install:
+- pip install tox
+script:
+- tox -e $TOX_ENV

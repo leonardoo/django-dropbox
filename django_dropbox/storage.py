@@ -1,22 +1,19 @@
 import errno
 import os.path
 import re
-import urlparse
-import urllib
 import itertools
 import platform
 
-try:
-    from cStringIO import StringIO
-except ImportError:
-    from StringIO import StringIO
-from dropbox.session import DropboxSession
 from dropbox.client import DropboxClient
+from dropbox.session import DropboxSession
 from dropbox.rest import ErrorResponse
+
 from django.core.cache import cache
 from django.core.files import File
 from django.core.files.storage import Storage
-from django.utils.encoding import filepath_to_uri
+from django.utils.encoding import filepath_to_uri, force_text
+
+from .compat import urlparse, getFile, deconstructible
 
 from .settings import (CONSUMER_KEY,
                        CONSUMER_SECRET,
@@ -25,7 +22,7 @@ from .settings import (CONSUMER_KEY,
                        ACCESS_TOKEN_SECRET,
                        CACHE_TIMEOUT)
 
-
+@deconstructible
 class DropboxStorage(Storage):
     """
     A storage class providing access to resources in a Dropbox Public folder.
@@ -42,9 +39,8 @@ class DropboxStorage(Storage):
     def _get_abs_path(self, name):
         # the path to save in dropbox
         name = os.path.join(self.location, name)
-        if platform.system() == "Windows":
-            name = name.replace("\\", "/")
-        return name
+        name = os.path.normpath(name)
+        return force_text(name.replace('\\', '/'))
 
     def _open(self, name, mode='rb'):
         name = self._get_abs_path(name)
@@ -141,7 +137,7 @@ class DropboxFile(File):
         self._storage = storage
         self._mode = mode
         self._is_dirty = False
-        self.file = StringIO()
+        self.file = getFile()
         self._is_read = False
 
     @property
@@ -159,7 +155,7 @@ class DropboxFile(File):
     def write(self, content):
         if 'w' not in self._mode:
             raise AttributeError("File was opened for read-only access.")
-        self.file = StringIO(content)
+        self.file = getFile(content)
         self._is_dirty = True
         self._is_read = True
 
